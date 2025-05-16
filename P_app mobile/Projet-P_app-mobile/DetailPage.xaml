@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Projet_P_app_mobile.DetailPage"
+             Title="DetailPage">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+
+            <!-- Image de couverture -->
+            <Image Source="couverture.jpg"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Center"
+                   HeightRequest="250"/>
+
+            <!-- Titre du livre -->
+            <Label Text="Titre du Livre"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <!-- Description -->
+            <Label Text="Ceci est la description du livre. Elle peut contenir plusieurs lignes de texte et donner un aperçu du contenu."
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+
+            <!-- Date de publication et nombre de pages -->
+            <Grid ColumnSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0" HorizontalOptions="Center">
+                    <Label Text="Date de publication" FontAttributes="Bold"/>
+                    <Label Text="16 mai 2025" />
+                </StackLayout>
+
+                <StackLayout Grid.Column="1" HorizontalOptions="Center">
+                    <Label Text="Nombre de pages" FontAttributes="Bold"/>
+                    <Label Text="350" />
+                </StackLayout>
+            </Grid>
+            <Button Grid.Row="2"
+                Text="Lire"
+                FontAttributes="Bold"
+                BackgroundColor="DarkBlue"
+                TextColor="White"
+                CornerRadius="10"
+                HeightRequest="50"
+                 />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

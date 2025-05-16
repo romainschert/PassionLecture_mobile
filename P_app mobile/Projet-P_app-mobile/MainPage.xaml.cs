@@ -12,15 +12,20 @@ namespace Projet_P_app_mobile
         public ObservableCollection<string> Items { get; set; } = new();
 
         public ICommand ItemTappedCommand { get; }
+        public ICommand NavigateToDetailCommand { get; }
 
         public MainPage()
         {
             InitializeComponent();
             BindingContext = this;
 
+            NavigateToDetailCommand = new Command(OnItemTapped);
+
             // Exemple de données test
             Items.Add("Item 1");
             Items.Add("Item 2");
+            Items.Add("Item 3");
+            Items.Add("Item 4");
 
             ItemTappedCommand = new Command<string>(item =>
             {
@@ -59,7 +64,11 @@ namespace Projet_P_app_mobile
         private void OnLoadMoreClicked(object sender, EventArgs e)
         {
             // Exemple de chargement supplémentaire
-            Items.Add($"Item {Items.Count + 1}");
+            Items.Add($"Item {Items.Count + 3}");
+        }
+        private async void OnItemTapped()
+        {
+            await Navigation.PushAsync(new DetailPage());
         }
     }
 
