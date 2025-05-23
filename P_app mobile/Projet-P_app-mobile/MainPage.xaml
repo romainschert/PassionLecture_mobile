@@ -1,50 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Projet_P_app_mobile.ViewModels"
              x:Class="Projet_P_app_mobile.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="10">
-            <Entry x:Name="endpoint" WidthRequest="300"
-                   Text="http://10.0.2.2:3000/epub/1"
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center" />
+    <ContentPage.BindingContext>
+        <viewModels:CrudViewModel/>
+    </ContentPage.BindingContext>
 
-            <HorizontalStackLayout>
-                <Label Text="XML"/>
-                <Switch Toggled="Switch_Toggled" IsToggled="False"/>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Commandes -->
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button Command="{Binding GetOneBookAsyncCommand}" Text="Un livre"/>
+                <Button Command="{Binding GetBooksCommand}" Text="Tous les livres"/>
             </HorizontalStackLayout>
 
-            <Button Text="Load data" Clicked="Button_Clicked"/>
+            <!-- En-tête -->
+            <Label Text="Notre Sélection" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
 
-            <Label x:Name="title" Text="book title"/>
-            <Image x:Name="cover" WidthRequest="150" HeightRequest="150" Source="book.png" />
+            <!-- Barre de tri et de recherche -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-            <Label Text="Qui pourrait vous intéresser ?" 
-                   FontSize="16" 
-                   HorizontalOptions="Center" 
-                   Margin="0,10,0,10"/>
-            <CollectionView ItemsSource="{Binding Items}">
+                <Button Text="Date d'ajout"
+                        Grid.Row="0" Grid.Column="0"
+                        ImageSource="arrow_down.png"
+                        ContentLayout="Right, 10"
+                        FontSize="Medium" />
+
+                <Border StrokeThickness="2" Stroke="Black"
+                        Grid.Row="0" Grid.Column="1">
+                    <AbsoluteLayout>
+                        <Entry Placeholder="Rechercher..." 
+                               FontSize="Medium" 
+                               VerticalOptions="Center"
+                               AbsoluteLayout.LayoutBounds="0,5,150,50" />
+                        <Image Source="loupe.png"
+                               AbsoluteLayout.LayoutBounds="135,10,35,35" />
+                    </AbsoluteLayout>
+                </Border>
+            </Grid>
+
+            <!-- Affichage des livres -->
+            <CollectionView ItemsSource="{Binding Books}" HeightRequest="1000">
                 <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="2"/>
+                    <GridItemsLayout Orientation="Vertical" Span="2" />
                 </CollectionView.ItemsLayout>
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Button BackgroundColor="LightGray"
-                    WidthRequest="165" HeightRequest="200"
-                    CornerRadius="10" Margin="5"
-                    Command="{Binding BindingContext.NavigateToDetailCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" />
+                        <Border Stroke="DarkGray" StrokeThickness="1" Margin="5" Padding="5" BackgroundColor="#f7f7f7">
+                            <VerticalStackLayout Spacing="8">
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer/>
+                                </VerticalStackLayout.GestureRecognizers>
+
+                                <!-- Couverture (image statique ou à remplacer par _imageCouverture) -->
+                                <Image Source="book.png" HeightRequest="120" Aspect="AspectFit" />
+
+                                <!-- Titre -->
+                                <Label Text="{Binding titre}" 
+                                       FontAttributes="Bold" 
+                                       FontSize="16" 
+                                       HorizontalTextAlignment="Center"/>
+
+                                <!-- Détails -->
+                                <Label Text="{Binding nbPages, StringFormat='Pages : {0}'}"
+                                       FontSize="12"
+                                       HorizontalTextAlignment="Center"/>
+                                <Label Text="{Binding anneeEdition, StringFormat='Édité en {0:yyyy}'}"
+                                       FontSize="12"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Button Text="plus" 
-                    Clicked="OnLoadMoreClicked"
-                    HorizontalOptions="Center" 
-                    BackgroundColor="LightGray"
-                    TextColor="Black"
-                    Margin="10"/>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
